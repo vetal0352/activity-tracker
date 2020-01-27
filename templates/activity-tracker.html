@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link href="/static/styles.css" rel="stylesheet">
+	<title>Activity tracker</title>
+</head>
+<body>
+<div class="container">
+  <header>
+	<!--<div>{{ get_flashed_messages() }}</div> -->
+    <div id="header">
+      <h1>Activity tracker</h1>
+    </div>
+  </header>
+  <main>
+    <div class="page-group">
+      <form id="activity-form" action="/" method="POST">
+        <span class="font-bold">Add new activity:</span>
+        <input
+        type="time"
+        name="start-time"
+        id="start-time"
+        class="form-control"
+        placeholder="Start time HH:MM"
+        required
+        pattern="[0-9]{2}:[0-9]{2}"
+        />
+        <input
+        type="time"
+        name="finish-time"
+        id="finish-time"
+        class="form-control"
+        placeholder="Finish time HH:MM"
+        required
+        pattern="[0-9]{2}:[0-9]{2}"
+        />
+        <input
+        type="text"
+        name="distance"
+        id="distance"
+        class="form-control"
+        placeholder="Distance"
+        required
+        />
+        <select id="activity-type" name="activity-type" class="form-control" required>
+          <option disabled selected value>Select activity type</option>
+          <option value="Ride">Ride</option>
+          <option value="Run">Run</option>
+        </select>
+        <button type="submit" id="save"> Save
+        </button>
+      </form>
+    </div>
+    <div class="page-group-grid">
+      <div class="activity-list">
+		{% for activity in activities %}
+        <div class="activity-info">
+          <div>{{ activity.adate }}</div>
+          <div>{{ activity.type }}</div>
+          <div>{{ activity.distance }} km</div>
+          <div>{{ activity.duration }} </div>
+          <div>{{ activity.speed }} km / hour</div>
+        </div>
+    {% else %}
+        <div class="font-bold"> Activity list is empty. Please add activity. </div>
+		{% endfor %}
+      </div>
+      <div class=result-list>
+        <div class="longest">
+          {% for item in longest %}
+            <p class="font-bold">Longest {{ item.type }}:</p>
+            <div class="longest-data">
+              <div> {{ item.adate }} </div> <div> {{ item.distance }} km </div> <div> {{ item.duration }} </div>
+            </div>
+          {% else %}
+            <div class="font-bold"> No activity - no data. </div>
+          {% endfor %}
+        </div>
+        <div class="total">
+          <div class="total-data">
+            {% for item in total %}
+              <div class="font-bold">Total {{ item.type }} distance:</div> <div> {{ item.distance }} km</div>
+            {% else %}
+              <div class="font-bold"> No activity - no data. </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
